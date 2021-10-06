@@ -72,15 +72,19 @@ namespace ConsoleApp1
             //    Console.WriteLine($"Did:{d.Did} DName: {d.DName} Description: {d.Description}");
             //}
 
-            //Find a record
+            //Find a particular record
             Department d = dbContext.Departments.Find(2);
             Console.WriteLine($"Did:{d.Did} DName: {d.DName} Description: {d.Description}");
 
             //Update the record
-            d.DName = "Administrator";
-            d.Description = "New description";
+            //d.DName = "Administrator";
+            //d.Description = "New description";
 
-            dbContext.Departments.Update(d);
+            //dbContext.Departments.Update(d);
+            //dbContext.SaveChanges();
+
+            //Delete Record
+            dbContext.Departments.Remove(d);
             dbContext.SaveChanges();
         }
     }
