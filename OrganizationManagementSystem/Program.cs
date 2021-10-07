@@ -29,15 +29,36 @@ namespace ConsoleApp1
         public int Eid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [NotMapped]
+        public string FullName { get { return FirstName + " " + LastName; } }
         public string Gender { get; set; }
         public double Salary { get; set; }
+        public string Email { get; set; }
         public int Did { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime CreatedAt { get; set; }
+    }
+
+    [Table("product")]
+    public class product
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int productid { get; set; }
+
+        [Column("ProductName", TypeName = "Varchar(50)")]
+        [Required]
+        public string ProdName { get; set; }
+        public double? PricePerUnit { get; set; }
     }
 
     //Step - 3 - Creating Context Object -> Adding DbSets
     public class OrganizationDbContext : DbContext
     {
         //Override DbContext
+        //This is to generate the Database 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -57,9 +78,9 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            var D = new Department() { DName = "Testing", Description = "Testing Department" };
+            //var D = new Department() { DName = "Testing", Description = "Testing Department" };
 
-            OrganizationDbContext dbContext = new OrganizationDbContext();
+            //OrganizationDbContext dbContext = new OrganizationDbContext();
 
             //Insert oparation
             //dbContext.Departments.Add(D);
@@ -73,8 +94,8 @@ namespace ConsoleApp1
             //}
 
             //Find a particular record
-            Department d = dbContext.Departments.Find(2);
-            Console.WriteLine($"Did:{d.Did} DName: {d.DName} Description: {d.Description}");
+            //Department d = dbContext.Departments.Find(2);
+            //Console.WriteLine($"Did:{d.Did} DName: {d.DName} Description: {d.Description}");
 
             //Update the record
             //d.DName = "Administrator";
@@ -84,8 +105,8 @@ namespace ConsoleApp1
             //dbContext.SaveChanges();
 
             //Delete Record
-            dbContext.Departments.Remove(d);
-            dbContext.SaveChanges();
+            //dbContext.Departments.Remove(d);
+            //dbContext.SaveChanges();
         }
     }
 }
